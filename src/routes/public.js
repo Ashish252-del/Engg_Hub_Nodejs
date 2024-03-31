@@ -14,6 +14,7 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/login", validate(userValidator.login), userController.login);
+router.post("/login/cleint", validate(userValidator.clientlogin), userController.loginClient);
 router.get(
   "/send-otp/:mobile",
   validate(userValidator.sendOTP),

@@ -356,10 +356,42 @@ module.exports.forgotPassword = async (req, res) => {
   }
 };
 
-module.exports.createClient = async (req,res) =>{
+module.exports.createClient = async (req, res) => {
   try {
-   
+    const { firstname,lastname , mobile, email, roleCode } = req.body;
+
+    const userData = await user.findOne({
+      where: {
+        [Op.or]: [{ email: email },  { mobile: mobile }],
+      },
+    });
+    if (userData) {
+      const existKey =
+        userData.email === email
+          ? "email"
+          : userData.mobile === mobile
+          ? "mobile"
+          : "";
+      throw new Error(`User already exists with ${existKey}`);
+    }
+    let password = uniqueId();
+    const reqPass = crypto.createHash("md5").update(password).digest("hex");
+    const payload = {
+      mobile,
+      email,
+      firstname,
+      password: reqPass,
+      lastname,
+      uuid: ""+uniqueId()
+    };
+    await user.create(payload);
+    return successResponse(req, res, {
+      message: "User registered successfully",
+      uuid:payload.uuid,
+      password:password
+    });
   } catch (error) {
-    
+    return errorResponse(req, res, error.message);
   }
-}
+};
+

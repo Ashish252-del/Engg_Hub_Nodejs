@@ -143,6 +143,15 @@ module.exports.login = {
       }),
   }),
 };
+module.exports.clientlogin = {
+  body: Joi.object({
+    password: Joi.string().required(),
+    uuid: Joi.string().required()
+      .messages({
+        "string.pattern.base": "UUID IS REQUIRED",
+      }),
+  }),
+};
 module.exports.loginAdmin = {
   body: Joi.object({
     username: Joi.string().required(),

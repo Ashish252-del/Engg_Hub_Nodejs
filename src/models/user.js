@@ -62,13 +62,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      roleCode: {
-        type:DataTypes.STRING,
-        allowNull: true,
-      },
       clientCode: {
         type:DataTypes.STRING,
         allowNull: true,
+        unique: true
       }
     },
     {

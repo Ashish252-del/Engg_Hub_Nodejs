@@ -903,3 +903,42 @@ module.exports.userInfo = async (req,res)=>{
     return errorResponse(req,res,error.message)
   }
 }
+
+module.exports.loginClient = async (req, res) => {
+  try {
+    const userData = await user.scope("withSecretColumns").findOne({
+      where: { uuid: req.body.uuid },
+    });
+    if (!userData) {
+      throw new Error("Incorrect Username/Password");
+    }
+
+    const reqPass = crypto
+      .createHash("md5")
+      .update(req.body.password || "")
+      .digest("hex");
+
+    console.log("===============localeCompare=====================");
+    console.log(userData);
+    console.log("====================================");
+
+    if (reqPass.localeCompare(userData.password) !== 0) {
+      throw new Error("Incorrect Username/Password");
+    }
+
+    const token = jwt.sign(
+      {
+        user: {
+          userId: userData.id,
+          email: userData.email,
+          createdAt: new Date(),
+        },
+      },
+      process.env.SECRET
+    );
+    delete userData.dataValues.password;
+    return successResponse(req, res, { user: userData, token });
+  } catch (error) {
+    return errorResponse(req, res, error.message);
+  }
+};

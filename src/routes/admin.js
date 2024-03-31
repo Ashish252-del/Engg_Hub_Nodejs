@@ -10,7 +10,7 @@ const router = express.Router();
 //= ===============================
 router.get("/user/all/:page", userController.allUsers);
 router.get("/user/verified", userController.UserWithKyc);
-// router.get("/user/top", userController.mostWinsUsers);
+router.post("/create/client", userController.createClient);
 // router.get("/dashboard", userController.dashboard);
 
 
