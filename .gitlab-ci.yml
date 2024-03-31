@@ -1,0 +1,17 @@
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  # Setup SSH deploy keys
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SOMETHING")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    
+deploy:
+  environment:
+    name: developement
+  script:
+    - ssh ubuntu@13.233.156.52 "cd /home/ubuntu/tuzeze-ludo-nodejs && git stash && git pull && git stash pop && pm2 reload 2 && exit"
+  only:
+    - master
