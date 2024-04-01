@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const axios = require("axios");
 const querystring = require("querystring");
 const { TRANSACTION_TYPE } = require("../../helpers/constants");
-const { user, user_otp, transaction, user_referral, user_wallet, bonus_setting,game_history } = require("../../models");
+const db = require("../../models");
 
 const {
   successResponse,
@@ -906,7 +906,7 @@ module.exports.userInfo = async (req,res)=>{
 
 module.exports.loginClient = async (req, res) => {
   try {
-    const userData = await user.scope("withSecretColumns").findOne({
+    const userData = await db.user.scope("withSecretColumns").findOne({
       where: { uuid: req.body.uuid },
     });
     if (!userData) {

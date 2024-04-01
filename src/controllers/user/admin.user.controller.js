@@ -115,7 +115,7 @@ module.exports.register = async (req, res) => {
       isAdmin: true,
     };
 
-    await user.create(payload);
+    await db.user.create(payload);
     return successResponse(req, res, {
       message: "User registered successfully",
     });
@@ -127,7 +127,7 @@ module.exports.register = async (req, res) => {
 
 module.exports.login = async (req, res) => {
   try {
-    const userData = await user.scope("withSecretColumns").findOne({
+    const userData = await db.user.scope("withSecretColumns").findOne({
       where: { username: req.body.email },
     });
     if (!userData) {
@@ -363,7 +363,7 @@ module.exports.createClient = async (req, res) => {
   try {
     const { firstname,lastname , mobile, email, roleCode } = req.body;
 
-    const userData = await user.findOne({
+    const userData = await db.user.findOne({
       where: {
         [Op.or]: [{ email: email },  { mobile: mobile }],
       },
@@ -387,7 +387,7 @@ module.exports.createClient = async (req, res) => {
       lastname,
       uuid: ""+uniqueId()
     };
-    await user.create(payload);
+    await db.user.create(payload);
     return successResponse(req, res, {
       message: "User registered successfully",
       uuid:payload.uuid,
