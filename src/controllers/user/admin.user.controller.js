@@ -119,6 +119,7 @@ module.exports.register = async (req, res) => {
       message: "User registered successfully",
     });
   } catch (error) {
+    console.erro("error is ", error);
     return errorResponse(req, res, error.message);
   }
 };
