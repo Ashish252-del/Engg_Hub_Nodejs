@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { Sequelize } = require("sequelize");
 const Op = Sequelize.Op;
 const { user ,user_otp} = require("../../models");
+const db = require("../../models")
 const sendEmail = require("../../utils/sendEmail");
 const { successResponse, errorResponse, uniqueId } = require("../../helpers");
 
@@ -83,7 +84,7 @@ module.exports.register = async (req, res) => {
         throw new Error("Google captcha is not valid");
       }
     }
-
+   console.log("db is ----->", db );
     const userData = await user.findOne({
       where: {
         [Op.or]: [{ email: email },  { mobile: mobile }],
