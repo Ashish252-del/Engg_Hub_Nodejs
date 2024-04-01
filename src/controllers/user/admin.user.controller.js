@@ -84,7 +84,7 @@ module.exports.register = async (req, res) => {
         throw new Error("Google captcha is not valid");
       }
     }
-   console.log("db is ----->", db );
+   console.log("db.user is ----->", db.user );
     const userData = await user.findOne({
       where: {
         [Op.or]: [{ email: email },  { mobile: mobile }],
