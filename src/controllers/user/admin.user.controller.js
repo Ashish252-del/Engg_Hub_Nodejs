@@ -85,7 +85,7 @@ module.exports.register = async (req, res) => {
       }
     }
    console.log("db.user is ----->", db.user );
-    const userData = await user.findOne({
+    const userData = await db.user.findOne({
       where: {
         [Op.or]: [{ email: email },  { mobile: mobile }],
       },
