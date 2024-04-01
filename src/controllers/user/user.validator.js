@@ -97,7 +97,8 @@ module.exports.updateUser = {
 };
 module.exports.registerAdmin = {
   body: Joi.object({
-    username: Joi.string().trim().required(),
+    firstname: Joi.string().trim().required(),
+    lastname: Joi.string().trim().required(),
     mobile: Joi.string()
       .trim()
       .required()
@@ -154,7 +155,7 @@ module.exports.clientlogin = {
 };
 module.exports.loginAdmin = {
   body: Joi.object({
-    username: Joi.string().required(),
+    email: Joi.string().required(),
     password: Joi.string().required(),
   }),
 };
