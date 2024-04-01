@@ -62,7 +62,7 @@ module.exports.UserWithKyc = async (req, res) => {
 
 module.exports.register = async (req, res) => {
   try {
-    const { username, mobile, email, password } = req.body;
+    const { firstname, lastname, mobile, email, password } = req.body;
 
     if (process.env.IS_GOOGLE_AUTH_ENABLE === "true") {
       if (!req.body.code) {
@@ -86,7 +86,7 @@ module.exports.register = async (req, res) => {
 
     const userData = await user.findOne({
       where: {
-        [Op.or]: [{ email: email }, { username: username }, { mobile: mobile }],
+        [Op.or]: [{ email: email },  { mobile: mobile }],
       },
     });
     if (userData) {
@@ -105,7 +105,8 @@ module.exports.register = async (req, res) => {
     const payload = {
       mobile,
       email,
-      username,
+      firstname,
+      lastname,
       password: reqPass,
       isVerified: false,
       verifyToken: uniqueId(),
@@ -125,7 +126,7 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   try {
     const userData = await user.scope("withSecretColumns").findOne({
-      where: { username: req.body.username },
+      where: { username: req.body.email },
     });
     if (!userData) {
       throw new Error("Incorrect Username/Password");
