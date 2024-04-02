@@ -128,7 +128,7 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
   try {
     const userData = await db.user.scope("withSecretColumns").findOne({
-      where: { username: req.body.email },
+      where: { email: req.body.email },
     });
     if (!userData) {
       throw new Error("Incorrect Username/Password");
