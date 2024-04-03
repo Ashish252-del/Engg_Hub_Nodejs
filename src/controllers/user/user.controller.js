@@ -912,7 +912,10 @@ module.exports.loginClient = async (req, res) => {
     if (!userData) {
       throw new Error("Incorrect Username/Password");
     }
-
+    if(!(JSON.parse(userData.jsonData).macIds.includes(""+req.body.macId)))
+    {
+      throw new Error("This Mac Address is not allowed");
+    }
     const reqPass = crypto
       .createHash("md5")
       .update(req.body.password || "")

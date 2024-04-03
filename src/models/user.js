@@ -66,6 +66,10 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.STRING,
         allowNull: true,
         unique: true
+      },
+      jsonData:{
+        type: DataTypes.STRING,
+        allowNull:true
       }
     },
     {

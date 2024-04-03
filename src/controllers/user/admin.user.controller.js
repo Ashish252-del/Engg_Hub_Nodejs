@@ -361,7 +361,7 @@ module.exports.forgotPassword = async (req, res) => {
 
 module.exports.createClient = async (req, res) => {
   try {
-    const { firstname,lastname , mobile, email, roleCode } = req.body;
+    const { firstname,lastname , mobile, email, roleCode , jsonData} = req.body;
 
     const userData = await db.user.findOne({
       where: {
@@ -385,7 +385,9 @@ module.exports.createClient = async (req, res) => {
       firstname,
       password: reqPass,
       lastname,
-      uuid: ""+uniqueId()
+      uuid: ""+uniqueId(),
+      jsonData,
+      roleCode
     };
     await db.user.create(payload);
     return successResponse(req, res, {
