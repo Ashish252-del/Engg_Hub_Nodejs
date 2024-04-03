@@ -60,7 +60,7 @@ async function init() {
   });
   db.sequelize = sequelize;
   db.Sequelize = Sequelize;
-  db.sequelize.sync();
+  await sequelize.sync({ force: true });
   } catch (error) {
     console.error("Unable to connect to the database:", error);
     process.exit(1);
