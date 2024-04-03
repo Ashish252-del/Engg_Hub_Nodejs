@@ -1,6 +1,6 @@
 const { errorResponse } = require("../helpers");
 const { user } = require("../models");
-
+const db = require("../models");
 const jwt = require("jsonwebtoken");
 
 const apiAuth = async (req, res, next) => {
@@ -12,7 +12,7 @@ const apiAuth = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.SECRET);
     req.user = decoded.user;
 
-    const userData = await user.scope("withSecretColumns").findOne({
+    const userData = await db.user.scope("withSecretColumns").findOne({
       where: { id: req.user.userId || req.user.userDataId },
       raw: true,
     });
