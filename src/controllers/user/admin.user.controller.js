@@ -11,9 +11,10 @@ module.exports.allUsers = async (req, res) => {
   try {
     const page = req.params.page || 1;
     const limit = 10;
-    const users = await user.findAndCountAll({
-      attributes:['id','name','kyc','mobile','email',['username','User_Name'],['isMobileVerified','Is_Mobile_Verified'],['isEmailVerified','Is_Email_Verified'],['isVerified','Is_Verified'],['referralCode','Referral_Code'],['facebookUserId','Facebook_User_Id'],['createdAt','Created_At'],['updatedAt','Updated_At']],
-      order: [["createdAt", "DESC"]],
+    const users = await db.user.findAndCountAll({
+      where:{
+        isAdmin: false
+      },
       offset: (page - 1) * limit,
       limit,
     });
@@ -399,4 +400,3 @@ module.exports.createClient = async (req, res) => {
     return errorResponse(req, res, error.message);
   }
 };
-

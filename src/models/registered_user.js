@@ -4,14 +4,19 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER
     },
-    tableId:{
+    collegeUUID:{
       type:DataTypes.STRING,
       allowNull:false,
       defaultValue:'0'
     },
-    status: {
+    rollNo: {
       type: DataTypes.INTEGER,
       allowNull : false,
+      defaultValue:0
+    },
+    studentCode:{
+      type:DataTypes.INTEGER,
+      allowNull:false,
       defaultValue:0
     }
   }, {
@@ -19,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   registered_user.associate = function(models) {
     // associations can be defined here
-    // registered_user.belongsTo(models.tournaments,{
-    //   foreignKey: "tourneyId"
+    //  registered_user.belongsTo(models.user,{
+    //   foreignKey: "collegeUUID"
     // })
   };
   return registered_user;
